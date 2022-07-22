@@ -1,0 +1,16 @@
+parameters:
+    phpVersion: 70200
+    level: 8
+    paths:
+        - src
+        - tests
+    parallel:
+        maximumNumberOfProcesses: 1
+    excludePaths:
+        - tests/report/*
+        - tests/TestAsset/*
+        - tests/Integration/TestAsset/*
+    ignoreErrors:
+        -
+            message: '%Parameter #2 \$message of method Zaphyr\\Logger\\Logger::log\(\) expects string, array<int, string> given.%'
+            path: tests/LoggerTest.php
