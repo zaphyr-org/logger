@@ -18,8 +18,6 @@ use Zaphyr\Utils\File;
 use Zaphyr\Utils\Str;
 
 /**
- * Class LogManager.
- *
  * @author merloxx <merloxx@zaphyr.org>
  */
 class LogManager implements LogManagerInterface

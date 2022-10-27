@@ -7,8 +7,6 @@ namespace Zaphyr\Logger\Contracts;
 use Psr\Log\LoggerInterface;
 
 /**
- * Interface LogManagerInterface.
- *
  * @author merloxx <merloxx@zaphyr.org>
  */
 interface LogManagerInterface

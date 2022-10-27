@@ -12,8 +12,6 @@ use Zaphyr\Logger\Contracts\HandlerInterface;
 use Zaphyr\Logger\Formatters\DefaultFormatter;
 
 /**
- * Class MailHandler.
- *
  * @author merloxx <merloxx@zaphyr.org>
  */
 class MailHandler implements HandlerInterface

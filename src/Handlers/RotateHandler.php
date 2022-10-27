@@ -11,8 +11,6 @@ use Zaphyr\Logger\Formatters\DefaultFormatter;
 use Zaphyr\Utils\Str;
 
 /**
- * Class FileRotateHandler.
- *
  * @author merloxx <merloxx@zaphyr.org>
  */
 class RotateHandler implements HandlerInterface

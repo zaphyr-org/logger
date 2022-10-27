@@ -9,8 +9,6 @@ use Zaphyr\Logger\Contracts\HandlerInterface;
 use Zaphyr\Logger\Formatters\DefaultFormatter;
 
 /**
- * Class FileHandler.
- *
  * @author merloxx <merloxx@zaphyr.org>
  */
 class FileHandler implements HandlerInterface

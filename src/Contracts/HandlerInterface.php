@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Zaphyr\Logger\Contracts;
 
 /**
- * Interface HandlerInterface.
- *
  * @author merloxx <merloxx@zaphyr.org>
  */
 interface HandlerInterface

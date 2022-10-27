@@ -10,8 +10,6 @@ use Exception;
 use Zaphyr\Logger\Contracts\FormatterInterface;
 
 /**
- * Class DefaultFormatter.
- *
  * @author merloxx <merloxx@zaphyr.org>
  */
 class DefaultFormatter implements FormatterInterface

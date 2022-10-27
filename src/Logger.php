@@ -10,8 +10,6 @@ use Psr\Log\LogLevel;
 use Zaphyr\Logger\Contracts\HandlerInterface;
 
 /**
- * Class Logger.
- *
  * @author merloxx <merloxx@zaphyr.org>
  */
 class Logger extends AbstractLogger
