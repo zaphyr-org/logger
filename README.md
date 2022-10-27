@@ -1,12 +1,13 @@
 ![License](https://img.shields.io/github/license/zaphyr-org/logger?style=for-the-badge)
 ![Version](https://img.shields.io/packagist/v/zaphyr-org/logger?style=for-the-badge)
-![Dowloads](https://img.shields.io/packagist/dt/zaphyr-org/logger?style=for-the-badge)
+![Downloads](https://img.shields.io/packagist/dt/zaphyr-org/logger?style=for-the-badge)
 ![Stars](https://img.shields.io/github/stars/zaphyr-org/logger?style=for-the-badge)
 ![Issues](https://img.shields.io/github/issues/zaphyr-org/logger?style=for-the-badge)
 
 # LOGGER
 
-A [PSR-3](https://www.php-fig.org/psr/psr-3/) logger with different log handlers.
+You want to know what's happening "under the hood" of your application? ZAPHYR provides a robust
+[PSR-3](https://www.php-fig.org/psr/psr-3/) logging service.
 
 ## System Requirements
 
@@ -22,7 +23,7 @@ composer require zaphyr-org/logger
 
 ## Documentation
 
-You can read the full documentation [here](docs/index.md).
+You can read the full documentation [here](https://zaphyr.org/docs/1.x/repositories/logger).
 
 ## Changelog
 
@@ -30,7 +31,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Issues
 
-Bug reports and feature requests can be submitted on the [Github Issue Tracker](https://github.com/zaphyr-org/logger/issues).
+Bug reports and feature requests can be submitted on the [GitHub Issue Tracker](https://github.com/zaphyr-org/logger/issues).
 
 ## Security
 
@@ -38,11 +39,11 @@ If you discover security related issues, please email security@zaphyr.org **inst
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://zaphyr.org/docs/1.x/repositories/contributions) for details.
 
 ## Code of Conduct
 
-Please see [CODE OF CONDUCT](CODE_OF_CONDUCT.md) for details.
+Please see [CODE OF CONDUCT](https://zaphyr.org/docs/1.x/repositories/contributions#content-code-of-conduct) for details.
 
 ## License
 

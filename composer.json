@@ -1,6 +1,6 @@
 {
     "name": "zaphyr-org/logger",
-    "description": "A PSR-3 logger with different log handlers.",
+    "description": "You want to know what's happening under the hood of your application? ZAPHYR provides a robust PSR-3 logging service. ",
     "keywords": [
         "logger",
         "psr3",
