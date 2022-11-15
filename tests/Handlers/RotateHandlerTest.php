@@ -67,7 +67,7 @@ class RotateHandlerTest extends TestCase
     }
 
     /**
-     * @return array<array>
+     * @return array<int, array<int, string>>
      */
     public function logHourlyDataProvider(): array
     {
@@ -102,7 +102,7 @@ class RotateHandlerTest extends TestCase
     }
 
     /**
-     * @return array<array>
+     * @return array<int, array<int, string>>
      */
     public function logDayDataProvider(): array
     {
@@ -137,7 +137,7 @@ class RotateHandlerTest extends TestCase
     }
 
     /**
-     * @return array<array>
+     * @return array<int, array<int, string>>
      */
     public function logWeekDataProvider(): array
     {
@@ -172,7 +172,7 @@ class RotateHandlerTest extends TestCase
     }
 
     /**
-     * @return array<array>
+     * @return array<int, array<int, string>>
      */
     public function logMonthDataProvider(): array
     {
@@ -207,7 +207,7 @@ class RotateHandlerTest extends TestCase
     }
 
     /**
-     * @return array<array>
+     * @return array<int, array<int, string>>
      */
     public function logYearDataProvider(): array
     {

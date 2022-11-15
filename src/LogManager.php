@@ -28,7 +28,7 @@ class LogManager implements LogManagerInterface
     protected $defaultLogger;
 
     /**
-     * @var array<string, array>
+     * @var array<string, array<mixed>>
      */
     protected $loggers;
 
@@ -38,8 +38,8 @@ class LogManager implements LogManagerInterface
     protected $cachedLoggers = [];
 
     /**
-     * @param string               $defaultLogger
-     * @param array<string, array> $loggers
+     * @param string                      $defaultLogger
+     * @param array<string, array<mixed>> $loggers
      */
     public function __construct(string $defaultLogger, array $loggers)
     {
@@ -60,9 +60,9 @@ class LogManager implements LogManagerInterface
     /**
      * @param string $logger
      *
-     * @return LoggerInterface
-     *
      * @throws InvalidArgumentException
+     *
+     * @return LoggerInterface
      */
     protected function createLogger(string $logger): LoggerInterface
     {
@@ -80,9 +80,9 @@ class LogManager implements LogManagerInterface
     /**
      * @param string $logger
      *
-     * @return array<mixed>
-     *
      * @throws InvalidArgumentException
+     *
+     * @return array<mixed>
      */
     protected function getConfigFor(string $logger): array
     {
@@ -99,9 +99,9 @@ class LogManager implements LogManagerInterface
      * @param string               $logger
      * @param array<array<string>> $handlers
      *
-     * @return HandlerInterface[]
-     *
      * @throws InvalidArgumentException
+     *
+     * @return HandlerInterface[]
      */
     protected function resolveHandlers(string $logger, array $handlers): array
     {
@@ -119,9 +119,9 @@ class LogManager implements LogManagerInterface
      * @param string   $handler
      * @param string[] $config
      *
-     * @return HandlerInterface
-     *
      * @throws InvalidArgumentException
+     *
+     * @return HandlerInterface
      */
     protected function createHandler(string $logger, string $handler, array $config): HandlerInterface
     {
@@ -138,9 +138,9 @@ class LogManager implements LogManagerInterface
      * @param string   $logger
      * @param string[] $config
      *
-     * @return FileHandler
-     *
      * @throws InvalidArgumentException
+     *
+     * @return FileHandler
      */
     protected function createFileHandler(string $logger, array $config): FileHandler
     {
@@ -159,9 +159,9 @@ class LogManager implements LogManagerInterface
      * @param string   $logger
      * @param string[] $config
      *
-     * @return MailHandler
-     *
      * @throws InvalidArgumentException
+     *
+     * @return MailHandler
      */
     protected function createMailHandler(string $logger, array $config): MailHandler
     {
@@ -184,9 +184,9 @@ class LogManager implements LogManagerInterface
      * @param string   $logger
      * @param string[] $config
      *
-     * @return RotateHandler
-     *
      * @throws InvalidArgumentException
+     *
+     * @return RotateHandler
      */
     protected function createRotateHandler(string $logger, array $config): RotateHandler
     {

@@ -95,7 +95,7 @@ class LoggerTest extends TestCase
     }
 
     /**
-     * @return array<array>
+     * @return array<string[]>
      */
     public function validLogLevelsDataProvider(): array
     {

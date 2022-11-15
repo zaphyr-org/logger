@@ -57,9 +57,9 @@ class RotateHandler implements HandlerInterface
     }
 
     /**
-     * @return string
-     *
      * @throws InvalidArgumentException
+     *
+     * @return string
      */
     protected function getIntervalFilename(): string
     {

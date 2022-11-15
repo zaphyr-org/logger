@@ -65,7 +65,7 @@ class FileHandlerTest extends TestCase
     }
 
     /**
-     * @return array<array>
+     * @return array<int, array<int, string>>
      */
     public function logDataProvider(): array
     {

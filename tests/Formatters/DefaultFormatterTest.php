@@ -46,11 +46,11 @@ class DefaultFormatterTest extends TestCase
     /**
      * @dataProvider messageDataProvider
      *
-     * @param string                      $name
-     * @param string                      $level
-     * @param string                      $message
-     * @param array<string, array|object> $context
-     * @param string                      $regex
+     * @param string                                      $name
+     * @param string                                      $level
+     * @param string                                      $message
+     * @param array<string, array<string, string>|object> $context
+     * @param string                                      $regex
      */
     public function testInterpolation(string $name, string $level, string $message, array $context, string $regex): void
     {
@@ -66,7 +66,7 @@ class DefaultFormatterTest extends TestCase
     }
 
     /**
-     * @return array<array>
+     * @return array<int, array<mixed>>
      */
     public function messageDataProvider(): array
     {
