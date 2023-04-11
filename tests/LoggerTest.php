@@ -16,17 +16,17 @@ class LoggerTest extends TestCase
     /**
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @var HandlerInterface&MockObject
      */
-    protected $handlerMock;
+    protected HandlerInterface&MockObject $handlerMock;
 
     /**
      * @var Logger
      */
-    protected $logger;
+    protected Logger $logger;
 
     public function setUp(): void
     {
@@ -97,7 +97,7 @@ class LoggerTest extends TestCase
     /**
      * @return array<string[]>
      */
-    public function validLogLevelsDataProvider(): array
+    public static function validLogLevelsDataProvider(): array
     {
         return [
             ['log'],

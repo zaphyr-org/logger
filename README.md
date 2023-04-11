@@ -11,7 +11,7 @@ You want to know what's happening "under the hood" of your application? ZAPHYR p
 
 ## System Requirements
 
-You need `PHP => 7.2.0` but the latest stable version of PHP is recommended.
+You need `PHP => 8.1.0` but the latest stable version of PHP is recommended.
 
 ## Installation
 
@@ -23,7 +23,7 @@ composer require zaphyr-org/logger
 
 ## Documentation
 
-You can read the full documentation [here](https://zaphyr.org/docs/1.x/repositories/logger).
+You can read the full documentation [here](https://zaphyr.org/docs/2.x/repositories/logger).
 
 ## Changelog
 
@@ -39,11 +39,11 @@ If you discover security related issues, please email security@zaphyr.org **inst
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://zaphyr.org/docs/1.x/repositories/contributions) for details.
+Please see [CONTRIBUTING](https://zaphyr.org/contributions) for details.
 
 ## Code of Conduct
 
-Please see [CODE OF CONDUCT](https://zaphyr.org/docs/1.x/repositories/contributions#content-code-of-conduct) for details.
+Please see [CODE OF CONDUCT](https://zaphyr.org/contributions#code-of-conduct) for details.
 
 ## License
 

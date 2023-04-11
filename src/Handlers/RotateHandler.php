@@ -16,33 +16,15 @@ use Zaphyr\Utils\Str;
 class RotateHandler implements HandlerInterface
 {
     /**
-     * @var string
-     */
-    protected $dir;
-
-    /**
-     * @var string
-     */
-    protected $interval;
-
-    /**
-     * @var FormatterInterface
-     */
-    protected $formatter;
-
-    /**
-     * @param string                  $dir
-     * @param string                  $interval
-     * @param FormatterInterface|null $formatter
+     * @param string             $dir
+     * @param string             $interval
+     * @param FormatterInterface $formatter
      */
     public function __construct(
-        string $dir,
-        string $interval = 'day',
-        FormatterInterface $formatter = null
+        protected string $dir,
+        protected string $interval = 'day',
+        protected FormatterInterface $formatter = new DefaultFormatter()
     ) {
-        $this->dir = $dir;
-        $this->interval = strtolower($interval);
-        $this->formatter = $formatter ?: new DefaultFormatter();
     }
 
     /**
@@ -63,10 +45,10 @@ class RotateHandler implements HandlerInterface
      */
     protected function getIntervalFilename(): string
     {
-        $method = 'create' . Str::studly($this->interval) . 'IntervalFilename';
+        $method = 'create' . Str::studly(strtolower($this->interval)) . 'IntervalFilename';
 
         if (!method_exists($this, $method)) {
-            throw new InvalidArgumentException('The interval "' . $this->interval . '" is not valid');
+            throw new InvalidArgumentException('The interval "' . strtolower($this->interval) . '" is not valid');
         }
 
         return $this->{$method}();

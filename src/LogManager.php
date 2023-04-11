@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Zaphyr\Logger;
 
-use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
 use Zaphyr\Logger\Contracts\HandlerInterface;
 use Zaphyr\Logger\Contracts\LogManagerInterface;
+use Zaphyr\Logger\Exceptions\LoggerException;
 use Zaphyr\Logger\Handlers\FileHandler;
 use Zaphyr\Logger\Handlers\MailHandler;
 use Zaphyr\Logger\Handlers\RotateHandler;
@@ -23,28 +23,18 @@ use Zaphyr\Utils\Str;
 class LogManager implements LogManagerInterface
 {
     /**
-     * @var string
-     */
-    protected $defaultLogger;
-
-    /**
-     * @var array<string, array<mixed>>
-     */
-    protected $loggers;
-
-    /**
      * @var LoggerInterface[]
      */
-    protected $cachedLoggers = [];
+    protected array $cachedLoggers = [];
 
     /**
      * @param string                      $defaultLogger
      * @param array<string, array<mixed>> $loggers
      */
-    public function __construct(string $defaultLogger, array $loggers)
-    {
-        $this->defaultLogger = $defaultLogger;
-        $this->loggers = $loggers;
+    public function __construct(
+        protected string $defaultLogger,
+        protected array $loggers
+    ) {
     }
 
     /**
@@ -60,8 +50,7 @@ class LogManager implements LogManagerInterface
     /**
      * @param string $logger
      *
-     * @throws InvalidArgumentException
-     *
+     * @throws LoggerException
      * @return LoggerInterface
      */
     protected function createLogger(string $logger): LoggerInterface
@@ -69,7 +58,7 @@ class LogManager implements LogManagerInterface
         $config = $this->getConfigFor($logger);
 
         if (!isset($config['handlers'])) {
-            throw new InvalidArgumentException('The logger "' . $logger . '" has no valid handlers configured');
+            throw new LoggerException('The logger "' . $logger . '" has no valid handlers configured');
         }
 
         $handlers = $this->resolveHandlers($logger, $config['handlers']);
@@ -80,8 +69,7 @@ class LogManager implements LogManagerInterface
     /**
      * @param string $logger
      *
-     * @throws InvalidArgumentException
-     *
+     * @throws LoggerException
      * @return array<mixed>
      */
     protected function getConfigFor(string $logger): array
@@ -89,7 +77,7 @@ class LogManager implements LogManagerInterface
         $config = $this->loggers[$logger] ?? null;
 
         if ($config === null) {
-            throw new InvalidArgumentException('Logger "' . $logger . '" is not configured');
+            throw new LoggerException('Logger "' . $logger . '" is not configured');
         }
 
         return $config;
@@ -99,8 +87,7 @@ class LogManager implements LogManagerInterface
      * @param string               $logger
      * @param array<array<string>> $handlers
      *
-     * @throws InvalidArgumentException
-     *
+     * @throws LoggerException
      * @return HandlerInterface[]
      */
     protected function resolveHandlers(string $logger, array $handlers): array
@@ -119,8 +106,7 @@ class LogManager implements LogManagerInterface
      * @param string   $handler
      * @param string[] $config
      *
-     * @throws InvalidArgumentException
-     *
+     * @throws LoggerException
      * @return HandlerInterface
      */
     protected function createHandler(string $logger, string $handler, array $config): HandlerInterface
@@ -128,7 +114,7 @@ class LogManager implements LogManagerInterface
         $method = 'create' . Str::studly($handler) . 'Handler';
 
         if (!method_exists($this, $method)) {
-            throw new InvalidArgumentException('The handler "' . $handler . '" is not supported');
+            throw new LoggerException('The handler "' . $handler . '" is not supported');
         }
 
         return $this->{$method}($logger, $config);
@@ -138,14 +124,13 @@ class LogManager implements LogManagerInterface
      * @param string   $logger
      * @param string[] $config
      *
-     * @throws InvalidArgumentException
-     *
+     * @throws LoggerException
      * @return FileHandler
      */
     protected function createFileHandler(string $logger, array $config): FileHandler
     {
         if (!isset($config['storagePath'])) {
-            throw new InvalidArgumentException(
+            throw new LoggerException(
                 'The file handler for logger "' . $logger . '" has no valid storage path'
             );
         }
@@ -159,8 +144,7 @@ class LogManager implements LogManagerInterface
      * @param string   $logger
      * @param string[] $config
      *
-     * @throws InvalidArgumentException
-     *
+     * @throws LoggerException
      * @return MailHandler
      */
     protected function createMailHandler(string $logger, array $config): MailHandler
@@ -169,12 +153,13 @@ class LogManager implements LogManagerInterface
 
         foreach ($requiredConfig as $key) {
             if (!isset($config[$key])) {
-                throw new InvalidArgumentException(
+                throw new LoggerException(
                     'The mail handler for logger "' . $logger . '" has no valid "' . $key . '" configuration'
                 );
             }
         }
 
+        // @todo use Address() ?!
         $email = (new Email())->from($config['from'])->to($config['to'])->subject($config['subject']);
 
         return new MailHandler(new Mailer(Transport::fromDsn($config['dsn'])), $email);
@@ -184,21 +169,20 @@ class LogManager implements LogManagerInterface
      * @param string   $logger
      * @param string[] $config
      *
-     * @throws InvalidArgumentException
-     *
+     * @throws LoggerException
      * @return RotateHandler
      */
     protected function createRotateHandler(string $logger, array $config): RotateHandler
     {
         if (!isset($config['storagePath'])) {
-            throw new InvalidArgumentException(
+            throw new LoggerException(
                 'The rotate handler for logger "' . $logger . '" has no valid storage path'
             );
         }
 
         $path = $config['storagePath'] . DIRECTORY_SEPARATOR . $logger;
 
-        if (!File::isDirectory($path)) {
+        if (!is_dir($path)) {
             File::createDirectory($path);
         }
 

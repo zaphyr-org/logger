@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Zaphyr\LoggerTests;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Zaphyr\Logger\Exceptions\LoggerException;
 use Zaphyr\Logger\LogManager;
 use Zaphyr\Utils\File;
 
@@ -15,7 +15,7 @@ class LogManagerTest extends TestCase
     /**
      * @var string
      */
-    protected $tempLogDir = __DIR__ . '/log';
+    protected string $tempLogDir = __DIR__ . '/log';
 
     public function setUp(): void
     {
@@ -99,7 +99,7 @@ class LogManagerTest extends TestCase
 
     public function testLoggerThrowsExceptionWhenNoValidHandlerIsConfigured(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(LoggerException::class);
 
         $logManager = new LogManager('app', ['app' => []]);
 
@@ -108,14 +108,14 @@ class LogManagerTest extends TestCase
 
     public function testLoggerThrowsExceptionWhenLoggerIsNotConfigured(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(LoggerException::class);
 
         (new LogManager('app', []))->logger('nope');
     }
 
     public function testLoggerThrowsExceptionOnInvalidHandler(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(LoggerException::class);
 
         $logManager = new LogManager(
             'app',
@@ -133,7 +133,7 @@ class LogManagerTest extends TestCase
 
     public function testLoggerThrowsExceptionOnMisconfiguredFileHandler(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(LoggerException::class);
 
         $logManager = new LogManager(
             'app',
@@ -151,7 +151,7 @@ class LogManagerTest extends TestCase
 
     public function testLoggerThrowsExceptionOnMisconfiguredMailHandler(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(LoggerException::class);
 
         $logManager = new LogManager(
             'app',
@@ -169,7 +169,7 @@ class LogManagerTest extends TestCase
 
     public function testLoggerThrowsExceptionOnMisconfiguredRotateHandler(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(LoggerException::class);
 
         $logManager = new LogManager(
             'app',

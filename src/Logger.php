@@ -15,19 +15,14 @@ use Zaphyr\Logger\Contracts\HandlerInterface;
 class Logger extends AbstractLogger
 {
     /**
-     * @var string
-     */
-    protected $name;
-
-    /**
      * @var HandlerInterface[]
      */
-    protected $handlers;
+    protected array $handlers;
 
     /**
      * @var string[]
      */
-    protected static $levels = [
+    protected static array $levels = [
         LogLevel::EMERGENCY,
         LogLevel::ALERT,
         LogLevel::CRITICAL,
@@ -42,9 +37,10 @@ class Logger extends AbstractLogger
      * @param string             $name
      * @param HandlerInterface[] $handlers
      */
-    public function __construct(string $name, array $handlers)
-    {
-        $this->name = $name;
+    public function __construct(
+        protected string $name,
+        array $handlers
+    ) {
         $this->setHandlers($handlers);
     }
 

@@ -15,12 +15,12 @@ class FileHandlerTest extends TestCase
     /**
      * @var string
      */
-    protected static $tempLogDir = __DIR__ . '/log/';
+    protected static string $tempLogDir = __DIR__ . '/log/';
 
     /**
      * @var FormatterInterface&MockObject
      */
-    protected $formatterMock;
+    protected FormatterInterface&MockObject $formatterMock;
 
     public static function setUpBeforeClass(): void
     {
@@ -67,7 +67,7 @@ class FileHandlerTest extends TestCase
     /**
      * @return array<int, array<int, string>>
      */
-    public function logDataProvider(): array
+    public static function logDataProvider(): array
     {
         return [
             [

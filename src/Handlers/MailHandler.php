@@ -17,30 +17,15 @@ use Zaphyr\Logger\Formatters\DefaultFormatter;
 class MailHandler implements HandlerInterface
 {
     /**
-     * @var MailerInterface
+     * @param MailerInterface    $mailer
+     * @param Email              $email
+     * @param FormatterInterface $formatter
      */
-    protected $mailer;
-
-    /**
-     * @var Email
-     */
-    protected $email;
-
-    /**
-     * @var FormatterInterface
-     */
-    protected $formatter;
-
-    /**
-     * @param MailerInterface         $mailer
-     * @param Email                   $email
-     * @param FormatterInterface|null $formatter
-     */
-    public function __construct(MailerInterface $mailer, Email $email, FormatterInterface $formatter = null)
-    {
-        $this->mailer = $mailer;
-        $this->email = $email;
-        $this->formatter = $formatter ?: new DefaultFormatter();
+    public function __construct(
+        protected MailerInterface $mailer,
+        protected Email $email,
+        protected FormatterInterface $formatter = new DefaultFormatter()
+    ) {
     }
 
     /**

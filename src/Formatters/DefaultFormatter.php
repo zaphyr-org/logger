@@ -17,26 +17,16 @@ class DefaultFormatter implements FormatterInterface
     /**
      * @var string
      */
-    protected $template = '[{date}] {name}.{level}: {message} [{context}] [{exception}]';
-
-    /**
-     * @var string
-     */
-    protected $dateFormat;
-
-    /**
-     * @var string
-     */
-    protected $timezone;
+    protected string $template = '[{date}] {name}.{level}: {message} [{context}] [{exception}]';
 
     /**
      * @param string $dateFormat
      * @param string $timezone
      */
-    public function __construct(string $dateFormat = 'Y-m-d H:i:s', string $timezone = 'utc')
-    {
-        $this->dateFormat = $dateFormat;
-        $this->timezone = $timezone;
+    public function __construct(
+        protected string $dateFormat = 'Y-m-d H:i:s',
+        protected string $timezone = 'utc'
+    ) {
     }
 
     /**
@@ -76,12 +66,12 @@ class DefaultFormatter implements FormatterInterface
             }
         }
 
-        $context = count($context) > 0 ? json_encode($context) : '';
+        $context = count($context) > 0 ? json_encode($context, JSON_THROW_ON_ERROR) : '';
         $exceptionTrace = $exceptionTrace ?? '';
 
         return str_replace(
             ['{date}', '{name}', '{level}', '{message}', '{context}', '{exception}'],
-            [$this->getTimestampFromImmutable(), $name, $level, $message, $context, $exceptionTrace],
+            [$this->getTimestampFromImmutable(), $name, strtoupper($level), $message, $context, $exceptionTrace],
             $this->template
         );
     }

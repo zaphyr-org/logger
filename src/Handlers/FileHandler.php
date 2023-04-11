@@ -14,25 +14,15 @@ use Zaphyr\Logger\Formatters\DefaultFormatter;
 class FileHandler implements HandlerInterface
 {
     /**
-     * @var string
-     */
-    protected $filename;
-
-    /**
-     * @var FormatterInterface
-     */
-    protected $formatter;
-
-    /**
      * FileHandler constructor.
      *
-     * @param string                  $filename
-     * @param FormatterInterface|null $formatter
+     * @param string             $filename
+     * @param FormatterInterface $formatter
      */
-    public function __construct(string $filename, FormatterInterface $formatter = null)
-    {
-        $this->filename = $filename;
-        $this->formatter = $formatter ?: new DefaultFormatter();
+    public function __construct(
+        protected string $filename,
+        protected FormatterInterface $formatter = new DefaultFormatter()
+    ) {
     }
 
     /**

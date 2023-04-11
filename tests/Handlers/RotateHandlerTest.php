@@ -16,12 +16,12 @@ class RotateHandlerTest extends TestCase
     /**
      * @var string
      */
-    protected static $tempLogDir = __DIR__ . '/log/';
+    protected static string $tempLogDir = __DIR__ . '/log/';
 
     /**
      * @var FormatterInterface&MockObject
      */
-    protected $formatterMock;
+    protected FormatterInterface&MockObject $formatterMock;
 
     public static function setUpBeforeClass(): void
     {
@@ -69,7 +69,7 @@ class RotateHandlerTest extends TestCase
     /**
      * @return array<int, array<int, string>>
      */
-    public function logHourlyDataProvider(): array
+    public static function logHourlyDataProvider(): array
     {
         return [
             [
@@ -104,7 +104,7 @@ class RotateHandlerTest extends TestCase
     /**
      * @return array<int, array<int, string>>
      */
-    public function logDayDataProvider(): array
+    public static function logDayDataProvider(): array
     {
         return [
             [
@@ -139,7 +139,7 @@ class RotateHandlerTest extends TestCase
     /**
      * @return array<int, array<int, string>>
      */
-    public function logWeekDataProvider(): array
+    public static function logWeekDataProvider(): array
     {
         return [
             [
@@ -174,7 +174,7 @@ class RotateHandlerTest extends TestCase
     /**
      * @return array<int, array<int, string>>
      */
-    public function logMonthDataProvider(): array
+    public static function logMonthDataProvider(): array
     {
         return [
             [
@@ -209,7 +209,7 @@ class RotateHandlerTest extends TestCase
     /**
      * @return array<int, array<int, string>>
      */
-    public function logYearDataProvider(): array
+    public static function logYearDataProvider(): array
     {
         return [
             [

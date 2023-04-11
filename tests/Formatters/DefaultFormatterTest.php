@@ -68,7 +68,7 @@ class DefaultFormatterTest extends TestCase
     /**
      * @return array<int, array<mixed>>
      */
-    public function messageDataProvider(): array
+    public static function messageDataProvider(): array
     {
         $exception = new Exception('first', 1, new Exception('second', 2, new Exception('third', 3)));
 
