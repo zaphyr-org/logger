@@ -17,13 +17,9 @@ class MailHandlerTest extends TestCase
      * -------------------------------------------------
      */
 
-    public function testAdd(): void
+    public function testAddWithTextEmail(): void
     {
-        $email = $this->createMock(Email::class);
-        $email->expects(self::once())
-            ->method('text')
-            ->with($content = 'This is a test log')
-            ->willReturn($email);
+        $email = (new Email())->text($content = 'This is a test log');
 
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects(self::once())
@@ -38,5 +34,30 @@ class MailHandlerTest extends TestCase
 
         $mailHandler = new MailHandler($mailer, $email, $formatter);
         $mailHandler->add($name, $level, $content);
+
+        self::assertSame($content, $email->getTextBody());
+        self::assertNull($email->getHtmlBody());
+    }
+
+    public function testAddWithHtmlEmail(): void
+    {
+        $email = (new Email())->html($content = '<p>This is a test log</p>');
+
+        $mailer = $this->createMock(MailerInterface::class);
+        $mailer->expects(self::once())
+            ->method('send')
+            ->with($email);
+
+        $formatter = $this->createMock(FormatterInterface::class);
+        $formatter->expects($this->once())
+            ->method('interpolate')
+            ->with($name = 'app', $level = 'INFO')
+            ->willReturn($content);
+
+        $mailHandler = new MailHandler($mailer, $email, $formatter);
+        $mailHandler->add($name, $level, $content);
+
+        self::assertSame($content, $email->getHtmlBody());
+        self::assertNull($email->getTextBody());
     }
 }

@@ -72,19 +72,17 @@ class Logger extends AbstractLogger
 
     /**
      * {@inheritdoc}
-     *
-     * @throws InvalidArgumentException
      */
     public function log($level, $message, array $context = []): void
     {
         if (!in_array($level, self::$levels, true)) {
             throw new InvalidArgumentException(
-                'The log level must be one of the constants contained by the "' . LogLevel::class . '" class'
+                'Log level must be one of the constants contained by the "' . LogLevel::class . '" class'
             );
         }
 
         if (!is_string($message)) {
-            throw new InvalidArgumentException('The log message must be a string');
+            throw new InvalidArgumentException('Log message must be a string');
         }
 
         foreach ($this->handlers as $handler) {

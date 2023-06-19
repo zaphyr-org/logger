@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Zaphyr\LoggerTests\Handlers;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Zaphyr\Logger\Contracts\FormatterInterface;
+use Zaphyr\Logger\Exceptions\LoggerException;
 use Zaphyr\Logger\Handlers\RotateHandler;
 use Zaphyr\Utils\File;
 
@@ -60,7 +60,7 @@ class RotateHandlerTest extends TestCase
             ->method('interpolate')
             ->willReturn('This is a test log');
 
-        $rotateHandler = new RotateHandler(static::$tempLogDir, 'hour', $this->formatterMock);
+        $rotateHandler = new RotateHandler(static::$tempLogDir, RotateHandler::INTERVAL_HOUR, $this->formatterMock);
         $rotateHandler->add('app', 'INFO', $expectedContent);
 
         self::assertEquals($expectedContent, file_get_contents($filename));
@@ -95,7 +95,7 @@ class RotateHandlerTest extends TestCase
             ->method('interpolate')
             ->willReturn('This is a test log');
 
-        $rotateHandler = new RotateHandler(static::$tempLogDir, 'day', $this->formatterMock);
+        $rotateHandler = new RotateHandler(static::$tempLogDir, RotateHandler::INTERVAL_DAY, $this->formatterMock);
         $rotateHandler->add('app', 'INFO', $expectedContent);
 
         self::assertEquals($expectedContent, file_get_contents($filename));
@@ -130,7 +130,7 @@ class RotateHandlerTest extends TestCase
             ->method('interpolate')
             ->willReturn('This is a test log');
 
-        $rotateHandler = new RotateHandler(static::$tempLogDir, 'week', $this->formatterMock);
+        $rotateHandler = new RotateHandler(static::$tempLogDir, RotateHandler::INTERVAL_WEEK, $this->formatterMock);
         $rotateHandler->add('app', 'INFO', $expectedContent);
 
         self::assertEquals($expectedContent, file_get_contents($filename));
@@ -165,7 +165,7 @@ class RotateHandlerTest extends TestCase
             ->method('interpolate')
             ->willReturn('This is a test log');
 
-        $rotateHandler = new RotateHandler(static::$tempLogDir, 'month', $this->formatterMock);
+        $rotateHandler = new RotateHandler(static::$tempLogDir, RotateHandler::INTERVAL_MONTH, $this->formatterMock);
         $rotateHandler->add('app', 'INFO', $expectedContent);
 
         self::assertEquals($expectedContent, file_get_contents($filename));
@@ -194,13 +194,13 @@ class RotateHandlerTest extends TestCase
      * @param string $expectedContent
      * @param string $filename
      */
-    public function testYearWithMonthInterval(string $expectedContent, string $filename): void
+    public function testAddWithYearInterval(string $expectedContent, string $filename): void
     {
         $this->formatterMock->expects(self::once())
             ->method('interpolate')
             ->willReturn('This is a test log');
 
-        $rotateHandler = new RotateHandler(static::$tempLogDir, 'year', $this->formatterMock);
+        $rotateHandler = new RotateHandler(static::$tempLogDir, RotateHandler::INTERVAL_YEAR, $this->formatterMock);
         $rotateHandler->add('app', 'INFO', $expectedContent);
 
         self::assertEquals($expectedContent, file_get_contents($filename));
@@ -225,7 +225,7 @@ class RotateHandlerTest extends TestCase
 
     public function testAddThrowsExceptionOnInvalidInterval(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(LoggerException::class);
 
         $rotateHandler = new RotateHandler(static::$tempLogDir, 'decade');
         $rotateHandler->add('app', 'INFO', 'Something went wrong');

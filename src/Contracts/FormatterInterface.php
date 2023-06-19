@@ -10,10 +10,10 @@ namespace Zaphyr\Logger\Contracts;
 interface FormatterInterface
 {
     /**
-     * @param string       $name
-     * @param string       $level
-     * @param string       $message
-     * @param array<mixed> $context
+     * @param string               $name
+     * @param string               $level
+     * @param string               $message
+     * @param array<string, mixed> $context
      *
      * @return string
      */

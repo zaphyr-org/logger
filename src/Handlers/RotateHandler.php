@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Zaphyr\Logger\Handlers;
 
-use Psr\Log\InvalidArgumentException;
 use Zaphyr\Logger\Contracts\FormatterInterface;
 use Zaphyr\Logger\Contracts\HandlerInterface;
-use Zaphyr\Logger\Formatters\DefaultFormatter;
-use Zaphyr\Utils\Str;
+use Zaphyr\Logger\Exceptions\LoggerException;
+use Zaphyr\Logger\Formatters\LineFormatter;
 
 /**
  * @author merloxx <merloxx@zaphyr.org>
@@ -16,14 +15,39 @@ use Zaphyr\Utils\Str;
 class RotateHandler implements HandlerInterface
 {
     /**
+     * @const string
+     */
+    public const INTERVAL_HOUR = 'hour';
+
+    /**
+     * @const string
+     */
+    public const INTERVAL_DAY = 'day';
+
+    /**
+     * @const string
+     */
+    public const INTERVAL_WEEK = 'week';
+
+    /**
+     * @const string
+     */
+    public const INTERVAL_MONTH = 'month';
+
+    /**
+     * @const string
+     */
+    public const INTERVAL_YEAR = 'year';
+
+    /**
      * @param string             $dir
-     * @param string             $interval
+     * @param self::INTERVAL_*   $interval
      * @param FormatterInterface $formatter
      */
     public function __construct(
         protected string $dir,
         protected string $interval = 'day',
-        protected FormatterInterface $formatter = new DefaultFormatter()
+        protected FormatterInterface $formatter = new LineFormatter()
     ) {
     }
 
@@ -39,16 +63,15 @@ class RotateHandler implements HandlerInterface
     }
 
     /**
-     * @throws InvalidArgumentException
-     *
+     * @throws LoggerException
      * @return string
      */
     protected function getIntervalFilename(): string
     {
-        $method = 'create' . Str::studly(strtolower($this->interval)) . 'IntervalFilename';
+        $method = 'create' . ucfirst(strtolower($this->interval)) . 'IntervalFilename';
 
         if (!method_exists($this, $method)) {
-            throw new InvalidArgumentException('The interval "' . strtolower($this->interval) . '" is not valid');
+            throw new LoggerException('Log interval "' . strtolower($this->interval) . '" is not valid');
         }
 
         return $this->{$method}();

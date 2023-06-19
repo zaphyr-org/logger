@@ -10,10 +10,10 @@ namespace Zaphyr\Logger\Contracts;
 interface HandlerInterface
 {
     /**
-     * @param string                             $name
-     * @param string                             $level
-     * @param string                             $message
-     * @param array<string, array<mixed>|object> $context
+     * @param string               $name
+     * @param string               $level
+     * @param string               $message
+     * @param array<string, mixed> $context
      */
     public function add(string $name, string $level, string $message, array $context = []): void;
 }

@@ -75,7 +75,7 @@ class LoggerTest extends TestCase
     {
         $this->handlerMock->expects(self::once())
             ->method('add')
-            ->with($this->name, $level = LogLevel::ALERT, $message = 'An error occured', []);
+            ->with($this->name, $level = LogLevel::ALERT, $message = 'An error occurred', []);
 
         $this->logger->log($level, $message);
     }

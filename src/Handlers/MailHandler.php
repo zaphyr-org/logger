@@ -9,7 +9,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Zaphyr\Logger\Contracts\FormatterInterface;
 use Zaphyr\Logger\Contracts\HandlerInterface;
-use Zaphyr\Logger\Formatters\DefaultFormatter;
+use Zaphyr\Logger\Formatters\LineFormatter;
 
 /**
  * @author merloxx <merloxx@zaphyr.org>
@@ -24,7 +24,7 @@ class MailHandler implements HandlerInterface
     public function __construct(
         protected MailerInterface $mailer,
         protected Email $email,
-        protected FormatterInterface $formatter = new DefaultFormatter()
+        protected FormatterInterface $formatter = new LineFormatter()
     ) {
     }
 
@@ -36,7 +36,18 @@ class MailHandler implements HandlerInterface
     public function add(string $name, string $level, string $message, array $context = []): void
     {
         $message = $this->formatter->interpolate($name, $level, $message, $context);
+        $email = $this->isHtml($message) ? $this->email->html($message) : $this->email->text($message);
 
-        $this->mailer->send($this->email->text($message));
+        $this->mailer->send($email);
+    }
+
+    /**
+     * @param string $message
+     *
+     * @return bool
+     */
+    protected function isHtml(string $message): bool
+    {
+        return $message !== strip_tags($message);
     }
 }

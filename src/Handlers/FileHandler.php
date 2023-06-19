@@ -6,7 +6,7 @@ namespace Zaphyr\Logger\Handlers;
 
 use Zaphyr\Logger\Contracts\FormatterInterface;
 use Zaphyr\Logger\Contracts\HandlerInterface;
-use Zaphyr\Logger\Formatters\DefaultFormatter;
+use Zaphyr\Logger\Formatters\LineFormatter;
 
 /**
  * @author merloxx <merloxx@zaphyr.org>
@@ -14,14 +14,12 @@ use Zaphyr\Logger\Formatters\DefaultFormatter;
 class FileHandler implements HandlerInterface
 {
     /**
-     * FileHandler constructor.
-     *
      * @param string             $filename
      * @param FormatterInterface $formatter
      */
     public function __construct(
         protected string $filename,
-        protected FormatterInterface $formatter = new DefaultFormatter()
+        protected FormatterInterface $formatter = new LineFormatter()
     ) {
     }
 

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Zaphyr\LoggerTests;
 
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use Zaphyr\Logger\Exceptions\LoggerException;
+use Zaphyr\Logger\Handlers\FileHandler;
+use Zaphyr\Logger\Handlers\RotateHandler;
 use Zaphyr\Logger\LogManager;
 use Zaphyr\Utils\File;
 
@@ -34,68 +35,31 @@ class LogManagerTest extends TestCase
 
     public function testLoggerWithDefaultLogger(): void
     {
-        $logManager = new LogManager(
-            'app',
-            [
-                'app' => [
-                    'handlers' => [
-                        'file' => [
-                            'storagePath' => $this->tempLogDir,
-                        ],
-                    ],
-                ],
-            ]
-        );
+        $handlers = [new FileHandler($this->tempLogDir . '/app.log')];
+        $logManager = new LogManager('app', ['app' => $handlers]);
 
-        self::assertInstanceOf(LoggerInterface::class, $logManager->logger());
+        self::assertSame($handlers, $logManager->logger()->getHandlers());
     }
 
     public function testLoggerWithNonDefaultLogger(): void
     {
+        $appHandlers = [new RotateHandler($this->tempLogDir, RotateHandler::INTERVAL_DAY)];
+        $debugHandlers = [new FileHandler($this->tempLogDir . '/debug.log')];
+
         $logManager = new LogManager(
-            'app',
-            [
-                'app' => [
-                    'handlers' => [
-                        'file' => [
-                            'storagePath' => $this->tempLogDir,
-                        ],
-                    ],
-                ],
-                'debug' => [
-                    'handlers' => [
-                        'rotate' => [
-                            'interval' => 'day',
-                            'storagePath' => $this->tempLogDir,
-                        ],
-                    ],
-                ],
+            'app', [
+                'app' => $appHandlers,
+                'debug' => $debugHandlers,
             ]
         );
 
-        self::assertInstanceOf(LoggerInterface::class, $logManager->logger('debug'));
+        self::assertSame($debugHandlers, $logManager->logger('debug')->getHandlers());
     }
 
-    public function testLoggerWithMailHander(): void
-    {
-        $logManager = new LogManager(
-            'app',
-            [
-                'app' => [
-                    'handlers' => [
-                        'mail' => [
-                            'dsn' => 'smtp://user:pass@smtp.example.com:25',
-                            'from' => 'from@smtp.example.com',
-                            'to' => 'to@smtp.example.com',
-                            'subject' => 'An error occurred in your application'
-                        ],
-                    ],
-                ],
-            ]
-        );
-
-        self::assertInstanceOf(LoggerInterface::class, $logManager->logger());
-    }
+    /* -------------------------------------------------
+     * EXCEPTIONS
+     * -------------------------------------------------
+     */
 
     public function testLoggerThrowsExceptionWhenNoValidHandlerIsConfigured(): void
     {
@@ -111,77 +75,5 @@ class LogManagerTest extends TestCase
         $this->expectException(LoggerException::class);
 
         (new LogManager('app', []))->logger('nope');
-    }
-
-    public function testLoggerThrowsExceptionOnInvalidHandler(): void
-    {
-        $this->expectException(LoggerException::class);
-
-        $logManager = new LogManager(
-            'app',
-            [
-                'app' => [
-                    'handlers' => [
-                        'nope' => [],
-                    ],
-                ],
-            ]
-        );
-
-        $logManager->logger();
-    }
-
-    public function testLoggerThrowsExceptionOnMisconfiguredFileHandler(): void
-    {
-        $this->expectException(LoggerException::class);
-
-        $logManager = new LogManager(
-            'app',
-            [
-                'app' => [
-                    'handlers' => [
-                        'file' => [],
-                    ],
-                ],
-            ]
-        );
-
-        $logManager->logger();
-    }
-
-    public function testLoggerThrowsExceptionOnMisconfiguredMailHandler(): void
-    {
-        $this->expectException(LoggerException::class);
-
-        $logManager = new LogManager(
-            'app',
-            [
-                'app' => [
-                    'handlers' => [
-                        'mail' => [],
-                    ],
-                ],
-            ]
-        );
-
-        $logManager->logger();
-    }
-
-    public function testLoggerThrowsExceptionOnMisconfiguredRotateHandler(): void
-    {
-        $this->expectException(LoggerException::class);
-
-        $logManager = new LogManager(
-            'app',
-            [
-                'app' => [
-                    'handlers' => [
-                        'rotate' => [],
-                    ],
-                ],
-            ]
-        );
-
-        $logManager->logger();
     }
 }
