@@ -30,6 +30,9 @@
         "squizlabs/php_codesniffer": "^4.0",
         "zaphyr-org/utils": "^2.0"
     },
+    "provide": {
+        "psr/logger-implementation": "^1.1"
+    },
     "autoload": {
         "psr-4": {
             "Zaphyr\\Logger\\": "src/"
