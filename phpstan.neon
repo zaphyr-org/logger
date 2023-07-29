@@ -3,17 +3,5 @@ parameters:
     level: 8
     paths:
         - src
-        - tests
     parallel:
         maximumNumberOfProcesses: 1
-    excludePaths:
-        - tests/report/*
-        - tests/TestAsset/*
-        - tests/Integration/TestAsset/*
-    ignoreErrors:
-        -
-            message: '%Parameter #2 \$message of method Zaphyr\\Logger\\Logger::log\(\) expects string, array<int, string> given.%'
-            path: tests/LoggerTest.php
-        -
-            message: '%Parameter #2 \$interval of class Zaphyr\\Logger\\Handlers\\RotateHandler constructor expects day|hour|month|week|year, decade given.%'
-            path: tests/Handlers/RotateHandlerTest.php
