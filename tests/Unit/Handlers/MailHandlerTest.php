@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zaphyr\LoggerTests\Handlers;
+namespace Zaphyr\LoggerTests\Unit\Handlers;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mailer\MailerInterface;

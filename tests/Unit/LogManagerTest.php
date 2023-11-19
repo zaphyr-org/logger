@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zaphyr\LoggerTests;
+namespace Zaphyr\LoggerTests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Zaphyr\Logger\Exceptions\LoggerException;
@@ -18,12 +18,12 @@ class LogManagerTest extends TestCase
      */
     protected string $tempLogDir = __DIR__ . '/log';
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         File::createDirectory($this->tempLogDir);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         File::deleteDirectory($this->tempLogDir);
     }

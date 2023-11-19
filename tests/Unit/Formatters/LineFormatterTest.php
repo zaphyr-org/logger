@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Zaphyr\LoggerTests\Formatters;
+namespace Zaphyr\LoggerTests\Unit\Formatters;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Zaphyr\Logger\Formatters\JsonFormatter;
+use Zaphyr\Logger\Formatters\LineFormatter;
 
-class JsonFormatterTest extends TestCase
+class LineFormatterTest extends TestCase
 {
     /* -------------------------------------------------
      * INTERPOLATE
@@ -18,11 +18,11 @@ class JsonFormatterTest extends TestCase
     /**
      * @dataProvider interpolateDataProvider
      *
-     * @param string               $name
-     * @param string               $level
-     * @param string               $message
+     * @param string $name
+     * @param string $level
+     * @param string $message
      * @param array<string, mixed> $context
-     * @param string               $expected
+     * @param string $expected
      */
     public function testInterpolate(
         string $name,
@@ -31,7 +31,7 @@ class JsonFormatterTest extends TestCase
         array $context,
         string $expected
     ): void {
-        $formatter = $this->createPartialMock(JsonFormatter::class, ['getTimestampFromImmutable']);
+        $formatter = $this->createPartialMock(LineFormatter::class, ['getTimestampFromImmutable']);
         $formatter->expects(self::once())
             ->method('getTimestampFromImmutable')
             ->willReturn('date');
@@ -55,7 +55,7 @@ class JsonFormatterTest extends TestCase
                 'info',
                 'Simple log message',
                 [],
-                '{"level":"INFO","name":"name","message":"Simple log message","time":"date"}',
+                '[date] name.INFO: Simple log message [] []',
             ],
             [
                 'name',
@@ -64,7 +64,7 @@ class JsonFormatterTest extends TestCase
                 [
                     'foo' => 'bar',
                 ],
-                '{"level":"INFO","name":"name","message":"Log message with context","time":"date","context":{"foo":"bar"}}',
+                '[date] name.INFO: Log message with context [foo: "bar"] []',
             ],
             [
                 'name',
@@ -73,7 +73,7 @@ class JsonFormatterTest extends TestCase
                 [
                     'replace' => 'replaced',
                 ],
-                '{"level":"INFO","name":"name","message":"Log message with replaced context","time":"date"}',
+                '[date] name.INFO: Log message with replaced context [] []',
             ],
             [
                 'name',
@@ -83,7 +83,7 @@ class JsonFormatterTest extends TestCase
                     'replace' => 'replaced',
                     'foo' => 'bar',
                 ],
-                '{"level":"INFO","name":"name","message":"Log message with replaced context and non replaced context","time":"date","context":{"foo":"bar"}}',
+                '[date] name.INFO: Log message with replaced context and non replaced context [foo: "bar"] []',
             ],
             [
                 'name',
@@ -92,7 +92,7 @@ class JsonFormatterTest extends TestCase
                 [
                     'exception' => $exception,
                 ],
-                '{"level":"INFO","name":"name","message":"Log message with exception","time":"date","exceptions":["Exception (code: 0) This is a test exception at \/Users\/merloxx\/PhpstormProjects\/zaphyr\/repositories\/logger\/tests\/Formatters\/JsonFormatterTest.php:49"]}',
+                '[date] name.INFO: Log message with exception [] [Exception (code: 0) This is a test exception at ' . __DIR__ . '/LineFormatterTest.php:49]',
             ],
             [
                 'name',
@@ -103,7 +103,7 @@ class JsonFormatterTest extends TestCase
                     'replace' => 'possible',
                     'exception' => $exception,
                 ],
-                '{"level":"INFO","name":"name","message":"Log message with all possible context","time":"date","context":{"foo":"bar"},"exceptions":["Exception (code: 0) This is a test exception at \/Users\/merloxx\/PhpstormProjects\/zaphyr\/repositories\/logger\/tests\/Formatters\/JsonFormatterTest.php:49"]}',
+                '[date] name.INFO: Log message with all possible context [foo: "bar"] [Exception (code: 0) This is a test exception at ' . __DIR__ . '/LineFormatterTest.php:49]',
             ],
             [
                 'name',
@@ -112,7 +112,7 @@ class JsonFormatterTest extends TestCase
                 [
                     'exception' => $previousException,
                 ],
-                '{"level":"INFO","name":"name","message":"Log message with previous exception","time":"date","exceptions":["Exception (code: 1) first at \/Users\/merloxx\/PhpstormProjects\/zaphyr\/repositories\/logger\/tests\/Formatters\/JsonFormatterTest.php:50","Exception (code: 2) second at \/Users\/merloxx\/PhpstormProjects\/zaphyr\/repositories\/logger\/tests\/Formatters\/JsonFormatterTest.php:50","Exception (code: 3) third at \/Users\/merloxx\/PhpstormProjects\/zaphyr\/repositories\/logger\/tests\/Formatters\/JsonFormatterTest.php:50"]}',
+                '[date] name.INFO: Log message with previous exception [] [Exception (code: 1) first at ' . __DIR__ . '/LineFormatterTest.php:50, Exception (code: 2) second at ' . __DIR__ . '/LineFormatterTest.php:50, Exception (code: 3) third at ' . __DIR__ . '/LineFormatterTest.php:50]',
             ],
         ];
     }
@@ -127,14 +127,11 @@ class JsonFormatterTest extends TestCase
         $dateFormat = 'Y-m-d H:i:s';
         $date = date($dateFormat);
 
-        $formatter = new JsonFormatter($dateFormat);
+        $formatter = new LineFormatter($dateFormat);
 
         $output = $formatter->interpolate('name', 'info', 'message');
 
-        self::assertStringContainsString(
-            '"time":"' . $date . '"',
-            $output
-        );
+        self::assertSame('[' . $date . '] name.INFO: message [] []', $output);
     }
 
     /* -------------------------------------------------
@@ -148,14 +145,14 @@ class JsonFormatterTest extends TestCase
 
         $dateFormat = 'Y-m-d H:i:s';
         $date = date($dateFormat);
-        $formatter = new JsonFormatter($dateFormat, 0);
+        $formatter = new LineFormatter($dateFormat, 0);
 
         $output = $formatter->interpolate('name', 'info', 'message', [
             'exception' => $previousException,
         ]);
 
         self::assertSame(
-            '{"level":"INFO","name":"name","message":"message","time":"' . $date . '","exceptions":["Exception (code: 1) first at ' . str_replace('/', '\/', __DIR__) . '\/JsonFormatterTest.php:147"]}',
+            '[' . $date . '] name.INFO: message [] [Exception (code: 1) first at ' . __DIR__ . '/LineFormatterTest.php:144]',
             $output
         );
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zaphyr\LoggerTests;
+namespace Zaphyr\LoggerTests\Unit;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -28,13 +28,13 @@ class LoggerTest extends TestCase
      */
     protected Logger $logger;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->handlerMock = $this->createMock(HandlerInterface::class);
         $this->logger = new Logger($this->name = 'test', [$this->handlerMock]);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         unset($this->handlerMock, $this->logger);
     }

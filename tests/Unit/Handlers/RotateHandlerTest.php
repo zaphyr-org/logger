@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zaphyr\LoggerTests\Handlers;
+namespace Zaphyr\LoggerTests\Unit\Handlers;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -33,12 +33,12 @@ class RotateHandlerTest extends TestCase
         File::deleteDirectory(static::$tempLogDir);
     }
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->formatterMock = $this->createMock(FormatterInterface::class);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         unset($this->formatterMock);
     }
