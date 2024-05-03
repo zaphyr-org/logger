@@ -117,6 +117,22 @@ class LineFormatterTest extends TestCase
         ];
     }
 
+    public function testInterpolateCannotNormalizeContextValue(): void
+    {
+        $formatter = $this->createPartialMock(LineFormatter::class, ['getTimestampFromImmutable']);
+        $formatter->expects(self::once())
+            ->method('getTimestampFromImmutable')
+            ->willReturn('date');
+
+        $context = [
+            'context' => fopen('php://memory', 'r'),
+        ];
+
+        $output = $formatter->interpolate('name', 'info', 'Log message', $context);
+
+        self::assertSame('[date] name.INFO: Log message [context: [N/A]] []', $output);
+    }
+
     /* -------------------------------------------------
      * DATE FORMAT
      * -------------------------------------------------
@@ -152,7 +168,7 @@ class LineFormatterTest extends TestCase
         ]);
 
         self::assertSame(
-            '[' . $date . '] name.INFO: message [] [Exception (code: 1) first at ' . __DIR__ . '/LineFormatterTest.php:144]',
+            '[' . $date . '] name.INFO: message [] [Exception (code: 1) first at ' . __DIR__ . '/LineFormatterTest.php:160]',
             $output
         );
     }
