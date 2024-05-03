@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## [v2.1.0](https://github.com/zaphyr-org/logger/compare/2.0.2...2.1.0) [2024-05-03]
+
+### New:
+* Added NoopHandler class
+* Added unit test for context interpolation on invalid context
+
 ## [v2.0.2](https://github.com/zaphyr-org/logger/compare/2.0.1...2.0.2) [2023-11-19]
 
 ### New:
