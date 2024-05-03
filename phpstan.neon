@@ -5,7 +5,3 @@ parameters:
         - src
     parallel:
         maximumNumberOfProcesses: 1
-    ignoreErrors:
-        -
-            message: '%Method Zaphyr\\Logger\\Logger::log\(\) has parameter \$context with no value type specified in iterable type array.%'
-            path: src/Logger.php

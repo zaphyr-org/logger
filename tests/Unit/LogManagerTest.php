@@ -47,7 +47,8 @@ class LogManagerTest extends TestCase
         $debugHandlers = [new FileHandler($this->tempLogDir . '/debug.log')];
 
         $logManager = new LogManager(
-            'app', [
+            'app',
+            [
                 'app' => $appHandlers,
                 'debug' => $debugHandlers,
             ]
