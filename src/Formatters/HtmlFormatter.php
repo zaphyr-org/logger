@@ -15,7 +15,7 @@ class HtmlFormatter extends AbstractFormatter
      * @param string|null $dateFormat
      * @param int|null    $maxPreviousExceptionDepth
      */
-    public function __construct(string|null $dateFormat = null, int|null $maxPreviousExceptionDepth = null)
+    public function __construct(?string $dateFormat = null, ?int $maxPreviousExceptionDepth = null)
     {
         parent::__construct($dateFormat, $maxPreviousExceptionDepth);
     }

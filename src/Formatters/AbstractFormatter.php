@@ -28,7 +28,7 @@ abstract class AbstractFormatter implements FormatterInterface
      * @param string|null $dateFormat
      * @param int|null    $maxPreviousExceptionDepth
      */
-    public function __construct(string|null $dateFormat, int|null $maxPreviousExceptionDepth)
+    public function __construct(?string $dateFormat, ?int $maxPreviousExceptionDepth)
     {
         if ($dateFormat !== null) {
             $this->dateFormat = $dateFormat;

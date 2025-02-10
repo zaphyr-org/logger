@@ -37,10 +37,8 @@ class Logger extends AbstractLogger
      * @param string             $name
      * @param HandlerInterface[] $handlers
      */
-    public function __construct(
-        protected string $name,
-        array $handlers
-    ) {
+    public function __construct(protected string $name, array $handlers)
+    {
         $this->setHandlers($handlers);
     }
 
@@ -74,7 +72,7 @@ class Logger extends AbstractLogger
      * {@inheritdoc}
      * @param array<string, mixed> $context
      */
-    public function log($level, $message, array $context = []): void
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         if (!in_array($level, self::$levels, true)) {
             throw new InvalidArgumentException(

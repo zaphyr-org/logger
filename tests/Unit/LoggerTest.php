@@ -118,11 +118,4 @@ class LoggerTest extends TestCase
 
         $this->logger->log('nope', 'An error occured');
     }
-
-    public function testLogThrowsExceptionOnNonStringMessage(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $this->logger->log('error', ['nope']);
-    }
 }

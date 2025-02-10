@@ -18,5 +18,5 @@ interface LogManagerInterface
      * @throws LoggerException
      * @return Logger
      */
-    public function logger(string|null $logger = null): Logger;
+    public function logger(?string $logger = null): Logger;
 }

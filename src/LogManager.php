@@ -22,16 +22,14 @@ class LogManager implements LogManagerInterface
      * @param string                            $defaultLogger
      * @param array<string, HandlerInterface[]> $logHandlers
      */
-    public function __construct(
-        protected string $defaultLogger,
-        protected array $logHandlers,
-    ) {
+    public function __construct(protected string $defaultLogger, protected array $logHandlers)
+    {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function logger(string $logger = null): Logger
+    public function logger(?string $logger = null): Logger
     {
         $logger = $logger ?? $this->defaultLogger;
 
