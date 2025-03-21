@@ -23,7 +23,7 @@ composer require zaphyr-org/logger
 
 ## Documentation
 
-You can read the full documentation [here](https://zaphyr.org/docs/2.x/repositories/logger).
+You can read the full documentation [here](https://zaphyr.org/docs/repositories/latest/logger).
 
 ## Changelog
 
@@ -31,7 +31,8 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Issues
 
-Bug reports and feature requests can be submitted on the [GitHub Issue Tracker](https://github.com/zaphyr-org/logger/issues).
+Bug reports and feature requests can be submitted on
+the [GitHub Issue Tracker](https://github.com/zaphyr-org/logger/issues).
 
 ## Security
 
