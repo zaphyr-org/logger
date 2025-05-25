@@ -52,6 +52,8 @@ class RotateHandler extends AbstractFileHandler
         FormatterInterface $formatter = new LineFormatter(),
         Level $level = Level::DEBUG
     ) {
+        $this->dir = rtrim($this->dir, '\/') . '/';
+
         parent::__construct($formatter, $level);
     }
 
