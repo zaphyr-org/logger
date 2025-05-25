@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zaphyr\LoggerTests\Unit\Handlers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Zaphyr\Logger\Contracts\FormatterInterface;
@@ -22,11 +23,6 @@ class RotateHandlerTest extends TestCase
      * @var FormatterInterface&MockObject
      */
     protected FormatterInterface&MockObject $formatterMock;
-
-    public static function setUpBeforeClass(): void
-    {
-        File::createDirectory(static::$tempLogDir);
-    }
 
     public static function tearDownAfterClass(): void
     {
@@ -49,11 +45,10 @@ class RotateHandlerTest extends TestCase
      */
 
     /**
-     * @dataProvider logHourlyDataProvider
-     *
      * @param string $expectedContent
      * @param string $filename
      */
+    #[DataProvider('logHourlyDataProvider')]
     public function testAddWithHourlyInterval(string $expectedContent, string $filename): void
     {
         $this->formatterMock->expects(self::once())
@@ -84,11 +79,10 @@ class RotateHandlerTest extends TestCase
     }
 
     /**
-     * @dataProvider logDayDataProvider
-     *
      * @param string $expectedContent
      * @param string $filename
      */
+    #[DataProvider('logDayDataProvider')]
     public function testAddWithDayInterval(string $expectedContent, string $filename): void
     {
         $this->formatterMock->expects(self::once())
@@ -119,11 +113,10 @@ class RotateHandlerTest extends TestCase
     }
 
     /**
-     * @dataProvider logWeekDataProvider
-     *
      * @param string $expectedContent
      * @param string $filename
      */
+    #[DataProvider('logWeekDataProvider')]
     public function testAddWithWeekInterval(string $expectedContent, string $filename): void
     {
         $this->formatterMock->expects(self::once())
@@ -154,11 +147,10 @@ class RotateHandlerTest extends TestCase
     }
 
     /**
-     * @dataProvider logMonthDataProvider
-     *
      * @param string $expectedContent
      * @param string $filename
      */
+    #[DataProvider('logMonthDataProvider')]
     public function testAddWithMonthInterval(string $expectedContent, string $filename): void
     {
         $this->formatterMock->expects(self::once())
@@ -189,11 +181,10 @@ class RotateHandlerTest extends TestCase
     }
 
     /**
-     * @dataProvider logYearDataProvider
-     *
      * @param string $expectedContent
      * @param string $filename
      */
+    #[DataProvider('logYearDataProvider')]
     public function testAddWithYearInterval(string $expectedContent, string $filename): void
     {
         $this->formatterMock->expects(self::once())

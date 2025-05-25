@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Zaphyr\Logger\Handlers;
 
 use Zaphyr\Logger\Contracts\FormatterInterface;
-use Zaphyr\Logger\Contracts\HandlerInterface;
 use Zaphyr\Logger\Exceptions\LoggerException;
 use Zaphyr\Logger\Formatters\LineFormatter;
 
 /**
  * @author merloxx <merloxx@zaphyr.org>
  */
-class RotateHandler implements HandlerInterface
+class RotateHandler extends AbstractFileHandler
 {
     /**
      * @const string
@@ -53,11 +52,13 @@ class RotateHandler implements HandlerInterface
 
     /**
      * {@inheritdoc}
+     * @throws LoggerException if the log directory cannot be created
      */
     public function add(string $name, string $level, string $message, array $context = []): void
     {
         $data = $this->formatter->interpolate($name, $level, $message, $context);
-        $filename = $this->dir . DIRECTORY_SEPARATOR . $this->getIntervalFilename() . '.log';
+        $filename = $this->dir . $this->getIntervalFilename() . '.log';
+        $this->createMissingLogDirectory($filename);
 
         file_put_contents($filename, $data . PHP_EOL, FILE_APPEND);
     }

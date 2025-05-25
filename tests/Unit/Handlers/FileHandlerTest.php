@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zaphyr\LoggerTests\Unit\Handlers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Zaphyr\Logger\Contracts\FormatterInterface;
@@ -21,11 +22,6 @@ class FileHandlerTest extends TestCase
      * @var FormatterInterface&MockObject
      */
     protected FormatterInterface&MockObject $formatterMock;
-
-    public static function setUpBeforeClass(): void
-    {
-        File::createDirectory(static::$tempLogDir);
-    }
 
     public static function tearDownAfterClass(): void
     {
@@ -51,11 +47,10 @@ class FileHandlerTest extends TestCase
      */
 
     /**
-     * @dataProvider logDataProvider
-     *
      * @param string $expectedContent
      * @param string $filename
      */
+     #[DataProvider('logDataProvider')]
     public function testAdd(string $expectedContent, string $filename): void
     {
         $fileHandler = new FileHandler($filename, $this->formatterMock);
