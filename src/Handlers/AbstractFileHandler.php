@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Zaphyr\Logger\Handlers;
 
-use Zaphyr\Logger\Contracts\HandlerInterface;
 use Zaphyr\Logger\Exceptions\LoggerException;
 
 /**
  * @author merloxx <merloxx@zaphyr.org>
  */
-abstract class AbstractFileHandler implements HandlerInterface
+abstract class AbstractFileHandler extends AbstractHandler
 {
     /**
      * @param string $filename

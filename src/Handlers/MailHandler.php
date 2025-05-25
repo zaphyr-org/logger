@@ -4,36 +4,40 @@ declare(strict_types=1);
 
 namespace Zaphyr\Logger\Handlers;
 
+use Stringable;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Zaphyr\Logger\Contracts\FormatterInterface;
-use Zaphyr\Logger\Contracts\HandlerInterface;
 use Zaphyr\Logger\Formatters\LineFormatter;
+use Zaphyr\Logger\Level;
 
 /**
  * @author merloxx <merloxx@zaphyr.org>
  */
-class MailHandler implements HandlerInterface
+class MailHandler extends AbstractHandler
 {
     /**
      * @param MailerInterface    $mailer
      * @param Email              $email
      * @param FormatterInterface $formatter
+     * @param Level              $level
      */
     public function __construct(
         protected MailerInterface $mailer,
         protected Email $email,
-        protected FormatterInterface $formatter = new LineFormatter()
+        FormatterInterface $formatter = new LineFormatter(),
+        Level $level = Level::DEBUG
     ) {
+        parent::__construct($formatter, $level);
     }
 
     /**
      * {@inheritdoc}
      *
-     * @throws TransportExceptionInterface
+     * @throws TransportExceptionInterface if the email cannot be sent
      */
-    public function add(string $name, string $level, string $message, array $context = []): void
+    protected function write(string $name, string $level, string|Stringable $message, array $context = []): void
     {
         $message = $this->formatter->interpolate($name, $level, $message, $context);
         $email = $this->isHtml($message) ? $this->email->html($message) : $this->email->text($message);

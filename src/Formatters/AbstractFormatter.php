@@ -6,6 +6,7 @@ namespace Zaphyr\Logger\Formatters;
 
 use DateTimeImmutable;
 use JsonException;
+use Stringable;
 use Throwable;
 use Zaphyr\Logger\Contracts\FormatterInterface;
 
@@ -40,12 +41,12 @@ abstract class AbstractFormatter implements FormatterInterface
     }
 
     /**
-     * @param string               $message
+     * @param string|Stringable    $message
      * @param array<string, mixed> $context
      *
      * @return array<string, mixed>
      */
-    protected function normalize(string $message, array $context = []): array
+    protected function normalize(string|Stringable $message, array $context = []): array
     {
         $depth = 0;
         $exceptions = [];
@@ -74,10 +75,10 @@ abstract class AbstractFormatter implements FormatterInterface
             }
 
             if (
-                mb_strpos($message, '{' . $key . '}') !== false
+                mb_strpos((string)$message, '{' . $key . '}') !== false
                 && ((is_object($value) && method_exists($value, '__toString')) || !is_array($value))
             ) {
-                $message = str_replace('{' . $key . '}', "$value", $message);
+                $message = str_replace('{' . $key . '}', "$value", (string)$message);
                 unset($context[$key]);
             }
         }

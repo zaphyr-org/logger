@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Zaphyr\Logger\Handlers;
 
+use Stringable;
 use Zaphyr\Logger\Contracts\FormatterInterface;
 use Zaphyr\Logger\Exceptions\LoggerException;
 use Zaphyr\Logger\Formatters\LineFormatter;
+use Zaphyr\Logger\Level;
 
 /**
  * @author merloxx <merloxx@zaphyr.org>
@@ -42,19 +44,23 @@ class RotateHandler extends AbstractFileHandler
      * @param string             $dir
      * @param self::INTERVAL_*   $interval
      * @param FormatterInterface $formatter
+     * @param Level              $level
      */
     public function __construct(
         protected string $dir,
         protected string $interval = 'day',
-        protected FormatterInterface $formatter = new LineFormatter()
+        FormatterInterface $formatter = new LineFormatter(),
+        Level $level = Level::DEBUG
     ) {
+        parent::__construct($formatter, $level);
     }
 
     /**
      * {@inheritdoc}
+     *
      * @throws LoggerException if the log directory cannot be created
      */
-    public function add(string $name, string $level, string $message, array $context = []): void
+    public function write(string $name, string $level, string|Stringable $message, array $context = []): void
     {
         $data = $this->formatter->interpolate($name, $level, $message, $context);
         $filename = $this->dir . $this->getIntervalFilename() . '.log';

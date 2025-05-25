@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Zaphyr\Logger\Formatters;
 
+use Stringable;
+
 /**
  * @author merloxx <merloxx@zaphyr.org>
  */
@@ -21,7 +23,7 @@ class JsonFormatter extends AbstractFormatter
     /**
      * {@inheritdoc}
      */
-    public function interpolate(string $name, string $level, string $message, array $context = []): string
+    public function interpolate(string $name, string $level, string|Stringable $message, array $context = []): string
     {
         $normalized = $this->normalize($message, $context);
 

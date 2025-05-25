@@ -7,6 +7,7 @@ namespace Zaphyr\Logger;
 use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
+use Stringable;
 use Zaphyr\Logger\Contracts\HandlerInterface;
 
 /**
@@ -72,16 +73,12 @@ class Logger extends AbstractLogger
      * {@inheritdoc}
      * @param array<string, mixed> $context
      */
-    public function log($level, string|\Stringable $message, array $context = []): void
+    public function log($level, string|Stringable $message, array $context = []): void
     {
         if (!in_array($level, self::$levels, true)) {
             throw new InvalidArgumentException(
                 'Log level must be one of the constants contained by the "' . LogLevel::class . '" class'
             );
-        }
-
-        if (!is_string($message)) {
-            throw new InvalidArgumentException('Log message must be a string');
         }
 
         foreach ($this->handlers as $handler) {

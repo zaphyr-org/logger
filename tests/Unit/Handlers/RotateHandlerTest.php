@@ -7,9 +7,11 @@ namespace Zaphyr\LoggerTests\Unit\Handlers;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LogLevel;
 use Zaphyr\Logger\Contracts\FormatterInterface;
 use Zaphyr\Logger\Exceptions\LoggerException;
 use Zaphyr\Logger\Handlers\RotateHandler;
+use Zaphyr\Logger\Level;
 use Zaphyr\Utils\File;
 
 class RotateHandlerTest extends TestCase
@@ -220,5 +222,78 @@ class RotateHandlerTest extends TestCase
 
         $rotateHandler = new RotateHandler(static::$tempLogDir, 'decade');
         $rotateHandler->add('app', 'INFO', 'Something went wrong');
+    }
+
+    /* -------------------------------------------------
+     * GET LEVEL
+     * -------------------------------------------------
+     */
+
+    public function testGetLevelWithDefaultLevel(): void
+    {
+        $rotateHandler = new RotateHandler(static::$tempLogDir, RotateHandler::INTERVAL_DAY, $this->formatterMock);
+
+        self::assertEquals(Level::DEBUG->value, $rotateHandler->getLevel()->value);
+    }
+
+    public function testGetLevelWithCustomLevel(): void
+    {
+        $customLevel = Level::ALERT;
+        $rotateHandler = new RotateHandler(
+            static::$tempLogDir,
+            RotateHandler::INTERVAL_DAY,
+            $this->formatterMock,
+            $customLevel
+        );
+
+        self::assertEquals($customLevel->value, $rotateHandler->getLevel()->value);
+    }
+
+    /* -------------------------------------------------
+     * HAS LEVEL
+     * -------------------------------------------------
+     */
+
+    public function testHasLevelWithDefaultLevel(): void
+    {
+        $rotateHandler = new RotateHandler(static::$tempLogDir, RotateHandler::INTERVAL_DAY, $this->formatterMock);
+
+        self::assertTrue($rotateHandler->hasLevel(LogLevel::DEBUG));
+    }
+
+    public function testHasLevelWithHigherLevel(): void
+    {
+        $rotateHandler = new RotateHandler(
+            static::$tempLogDir,
+            RotateHandler::INTERVAL_DAY,
+            $this->formatterMock,
+            Level::ALERT
+        );
+
+        self::assertTrue($rotateHandler->hasLevel(LogLevel::EMERGENCY));
+    }
+
+    public function testHasLevelWithEqualLevel(): void
+    {
+        $rotateHandler = new RotateHandler(
+            static::$tempLogDir,
+            RotateHandler::INTERVAL_DAY,
+            $this->formatterMock,
+            Level::INFO
+        );
+
+        self::assertTrue($rotateHandler->hasLevel(LogLevel::INFO));
+    }
+
+    public function testHasLevelWithLowerLevel(): void
+    {
+        $rotateHandler = new RotateHandler(
+            static::$tempLogDir,
+            RotateHandler::INTERVAL_DAY,
+            $this->formatterMock,
+            Level::EMERGENCY
+        );
+
+        self::assertFalse($rotateHandler->hasLevel(LogLevel::ALERT));
     }
 }
