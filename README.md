@@ -1,8 +1,8 @@
-![License](https://img.shields.io/github/license/zaphyr-org/logger?style=for-the-badge)
-![Version](https://img.shields.io/packagist/v/zaphyr-org/logger?style=for-the-badge)
-![Downloads](https://img.shields.io/packagist/dt/zaphyr-org/logger?style=for-the-badge)
-![Stars](https://img.shields.io/github/stars/zaphyr-org/logger?style=for-the-badge)
-![Issues](https://img.shields.io/github/issues/zaphyr-org/logger?style=for-the-badge)
+![License](https://img.shields.io/github/license/zaphyr-org/logger)
+![Version](https://img.shields.io/packagist/v/zaphyr-org/logger)
+![Issues](https://img.shields.io/github/issues/zaphyr-org/logger)
+![Tests](https://github.com/zaphyr-org/logger/actions/workflows/tests.yml/badge.svg)
+[![Codecov](https://codecov.io/gh/zaphyr-org/logger/graph/badge.svg?token=2STP40KC71)](https://codecov.io/gh/zaphyr-org/logger)
 
 # LOGGER
 
@@ -11,7 +11,15 @@ You want to know what's happening "under the hood" of your application? ZAPHYR p
 
 ## System Requirements
 
-You need `PHP => 8.1.0` but the latest stable version of PHP is recommended.
+You need `PHP => 8.1` but the latest stable version of PHP is recommended.
+
+This package is continuously tested on the following PHP versions:
+
+- PHP 8.1
+- PHP 8.2
+- PHP 8.3
+- PHP 8.4
+- PHP 8.5
 
 ## Installation
 
